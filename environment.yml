@@ -18,7 +18,7 @@ dependencies:
   - tk=8.6.8=hbc83047_0
   - wheel=0.33.4=py37_0
   - xz=5.2.4=h14c3975_4
-  - zlib=1.2.11=h7b6447c_3
+  - zlib=1.2.12
   - pip:
     - absl-py==0.7.1
     - chardet==3.0.4

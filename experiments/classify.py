@@ -1,4 +1,11 @@
+# relatively import the former package
+import sys
+sys.path.insert(1, '..')
+sys.path.insert(1, '../former')
+
 import former
+
+# issue
 from former import util
 from former.util import d, here
 
@@ -8,12 +15,12 @@ from torch.autograd import Variable
 import torch.nn.functional as F
 
 # from torchtext import data, datasets, vocab
-from torchtext.legacy import data, datasets, vocab
+from torchtext import data, datasets
 
 import numpy as np
 
 from argparse import ArgumentParser
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 
 import random, tqdm, sys, math, gzip
 
@@ -27,7 +34,7 @@ def go(arg):
     """
     Creates and trains a basic transformer for the IMDB sentiment classification task.
     """
-    tbw = SummaryWriter(log_dir=arg.tb_dir) # Tensorboard logging
+    # tbw = SummaryWriter(log_dir=arg.tb_dir) # Tensorboard logging
 
     # load the IMDB data
     if arg.final:
@@ -94,7 +101,7 @@ def go(arg):
             sch.step()
 
             seen += input.size(0)
-            tbw.add_scalar('classification/train-loss', float(loss.item()), seen)
+            # tbw.add_scalar('classification/train-loss', float(loss.item()), seen)
 
         with torch.no_grad():
 
@@ -115,7 +122,7 @@ def go(arg):
 
             acc = cor / tot
             print(f'-- {"test" if arg.final else "validation"} accuracy {acc:.3}')
-            tbw.add_scalar('classification/test-loss', float(loss.item()), e)
+            # tbw.add_scalar('classification/test-loss', float(loss.item()), e)
 
 
 if __name__ == "__main__":

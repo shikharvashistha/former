@@ -3,7 +3,7 @@ import torch, os, time, math, tqdm, random, sys, gzip
 import torch.nn.functional as F
 import torch.distributions as dist
 
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 
 import numpy as np
 
@@ -252,8 +252,7 @@ def slice_diag(matrix, l, dv=None):
 LOG2E = math.log2(math.e)
 LOGE2 = math.log(2.0)
 
-def compute_compression(model, data, context, batch_size, verbose=False,
-                        tbw:SummaryWriter=None, tok=None, skip=0):
+def compute_compression(model, data, context, batch_size, verbose=False, tok=None, skip=0):
 
 
     """
@@ -340,15 +339,15 @@ def compute_compression(model, data, context, batch_size, verbose=False,
             # -- The model produces natural logarithms of probabilities, but we need base-2 logarithms of the
             #    probabilities, since these give us bits.
 
-            if tbw is not None:
-                for j, lp in enumerate(log2probs):
-                    i += 1
-                    tbw.add_scalar('compression/bits-per-token', -lp, i)
+            # if tbw is not None:
+            #     for j, lp in enumerate(log2probs):
+            #         i += 1
+            #         tbw.add_scalar('compression/bits-per-token', -lp, i)
 
-                    if tok is not None:
-                        nc = len(tok.decode(target[j]))
-                        ic += nc
-                        tbw.add_scalar('compression/bits-per-byte', -lp/nc, ic)
+            #         if tok is not None:
+            #             nc = len(tok.decode(target[j]))
+            #             ic += nc
+            #             tbw.add_scalar('compression/bits-per-byte', -lp/nc, ic)
 
             bits += - log2probs.sum() # Add the bits for each character (the negative log_2 probabilities) to the running total
             batch, target_indices = [], []  # clear the buffer

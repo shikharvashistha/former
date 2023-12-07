@@ -8,7 +8,7 @@ from former.util import slice_diag, compute_compression, estimate_compression
 
 from collections.abc import Sequence
 
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 
 import fire
 
@@ -18,7 +18,7 @@ def test_gpt2(batch_size=16, subset=(None, None), name='distilgpt2', tb_dir='./r
     :return:
     """
 
-    tbw = SummaryWriter(log_dir=tb_dir)
+    # tbw = SummaryWriter(log_dir=tb_dir)
 
     tokenizer = trf.GPT2Tokenizer.from_pretrained(name)
     model = trf.GPT2LMHeadModel.from_pretrained(name)
@@ -39,7 +39,7 @@ def test_gpt2(batch_size=16, subset=(None, None), name='distilgpt2', tb_dir='./r
 
     context = model.config.n_ctx if context is None else context
 
-    bits, numcharsr = compute_compression(model, data=encoded_input, context=context, batch_size=batch_size, verbose=True, tbw=tbw, tok=tokenizer, skip=skip)
+    bits, numcharsr = compute_compression(model, data=encoded_input, context=context, batch_size=batch_size, verbose=True, tok=tokenizer, skip=skip)
 
     print('total bits: ', bits)
     print('bits per byte (1): ', bits/numcharsr)
