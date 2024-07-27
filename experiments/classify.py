@@ -34,6 +34,13 @@ def go(arg):
     """
     Creates and trains a basic transformer for the IMDB sentiment classification task.
     """
+    # torch.cuda.set_per_process_memory_fraction(0.999, device=None)
+    # torch.cuda.empty_cache()
+    # total_memory = torch.cuda.get_device_properties(0).total_memory
+    # tmp_tensor = torch.empty(int(total_memory * 0.899), dtype=torch.int8, device='cuda')
+    # del tmp_tensor
+    # torch.cuda.empty_cache()
+    # torch.empty(31, dtype=torch.int8, device='cuda')
     # tbw = SummaryWriter(log_dir=arg.tb_dir) # Tensorboard logging
 
     # load the IMDB data
@@ -67,7 +74,6 @@ def go(arg):
     model = former.CTransformer(emb=arg.embedding_size, heads=arg.num_heads, depth=arg.depth, seq_length=mx, num_tokens=arg.vocab_size, num_classes=NUM_CLS, max_pool=arg.max_pool)
     if torch.cuda.is_available():
         model.cuda()
-
     opt = torch.optim.Adam(lr=arg.lr, params=model.parameters())
     sch = torch.optim.lr_scheduler.LambdaLR(opt, lambda i: min(i / (arg.lr_warmup / arg.batch_size), 1.0))
 
